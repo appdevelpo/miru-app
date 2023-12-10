@@ -1,16 +1,15 @@
 import 'package:isar/isar.dart';
 import 'package:miru_app/models/extension.dart';
 
-part 'favorite.g.dart';
+part 'file_favorite.g.dart';
 
 @collection
-class Favorite {
+class File_Favorite {
   Id id = Isar.autoIncrement;
   @Index(composite: [CompositeIndex('url')])
   late String package;
   late String url;
-  late List<String>? tags;
-  late int? folderDepth;
+  late List<String> tags;
   late int? parentFolderId;
   late int? folderId;
   @Enumerated(EnumType.name)

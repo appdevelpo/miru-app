@@ -51,7 +51,7 @@ class DetailPageController extends GetxController {
 
   ExtensionDetail? get detail => data.value;
   set detail(ExtensionDetail? value) => data.value = value;
-
+  List<String>? get tags => [""];
   TMDBDetail? get tmdbDetail => tmdb.value;
   set tmdbDetail(TMDBDetail? value) => tmdb.value = value;
 
@@ -160,9 +160,9 @@ class DetailPageController extends GetxController {
 
     dynamic data;
     if (Platform.isAndroid) {
-      data = await Get.to(TMDBBinding(
-        title: detail!.title,
-      ));
+      data = await Get.to(() => TMDBBinding(
+            title: detail!.title,
+          ));
     } else {
       data = await fluent.showDialog(
         context: currentContext,
@@ -281,7 +281,8 @@ class DetailPageController extends GetxController {
         await DatabaseService.isFavorite(package: package, url: url);
   }
 
-  toggleFavorite() async {
+  toggleFavorite(
+      {List<String>? tag, int? folderDepth, int? parentFolderId}) async {
     if (detail == null) {
       return;
     }
@@ -291,6 +292,9 @@ class DetailPageController extends GetxController {
         url: url,
         cover: detail!.cover,
         name: detail!.title,
+        tags: tag,
+        folderDepth: folderDepth,
+        parentFolderId: parentFolderId,
       );
     } catch (e) {
       showPlatformSnackbar(

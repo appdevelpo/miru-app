@@ -3,18 +3,19 @@ import 'package:miru_app/views/widgets/cover.dart';
 import 'package:miru_app/views/widgets/platform_widget.dart';
 
 class GridItemTile extends StatefulWidget {
-  const GridItemTile({
-    Key? key,
-    required this.title,
-    this.cover,
-    this.subtitle,
-    this.onTap,
-  }) : super(key: key);
+  const GridItemTile(
+      {Key? key,
+      required this.title,
+      this.cover,
+      this.subtitle,
+      this.onTap,
+      this.usingIcon})
+      : super(key: key);
   final String title;
   final String? cover;
   final String? subtitle;
   final Function()? onTap;
-
+  final Widget? usingIcon;
   @override
   State<GridItemTile> createState() => _GridItemTileState();
 }
@@ -30,10 +31,11 @@ class _GridItemTileState extends State<GridItemTile> {
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
           clipBehavior: Clip.antiAlias,
-          child: Cover(
-            alt: widget.title,
-            url: widget.cover,
-          ),
+          child: (widget.usingIcon) ??
+              Cover(
+                alt: widget.title,
+                url: widget.cover,
+              ),
         ),
         Positioned(
             left: 0,

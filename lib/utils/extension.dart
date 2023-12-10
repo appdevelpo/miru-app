@@ -121,6 +121,8 @@ class ExtensionUtils {
         return 'extension-type.novel'.i18n;
       case ExtensionType.manga:
         return 'extension-type.comic'.i18n;
+      case ExtensionType.folder:
+        return 'extension-type.folder'.i18n; // ignore: dead_code
     }
   }
 

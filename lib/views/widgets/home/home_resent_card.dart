@@ -269,7 +269,7 @@ class _HomeRecentCardState extends State<HomeRecentCard> {
           onTap: () {
             if (Platform.isAndroid) {
               Get.to(
-                DetailPage(
+                () => DetailPage(
                   url: widget.history.url,
                   package: widget.history.package,
                 ),

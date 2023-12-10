@@ -73,7 +73,12 @@ class _HomePageState extends State<HomePage> {
                     type: ExtensionType.fikushon,
                     data: c.favorites[ExtensionType.fikushon]!,
                   ),
-                ]
+                ],
+                Container(
+                  width: 200,
+                  height: 200,
+                  color: Colors.red,
+                )
               ],
             ),
           ),

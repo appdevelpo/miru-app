@@ -13,13 +13,14 @@ class ExtensionItemCard extends StatefulWidget {
     required this.package,
     this.cover,
     this.update,
+    this.usingIcon,
   }) : super(key: key);
   final String title;
   final String? cover;
   final String? update;
   final String url;
   final String package;
-
+  final Widget? usingIcon;
   @override
   State<ExtensionItemCard> createState() => _ExtensionItemCardState();
 }
@@ -32,12 +33,13 @@ class _ExtensionItemCardState extends State<ExtensionItemCard> {
         title: widget.title,
         cover: widget.cover,
         subtitle: widget.update,
+        usingIcon: widget.usingIcon,
         onTap: () {
-          Get.to(DetailPage(
-            url: widget.url,
-            package: widget.package,
-            tag: widget.url,
-          ));
+          Get.to(() => DetailPage(
+                url: widget.url,
+                package: widget.package,
+                tag: widget.url,
+              ));
         },
       ),
     );
@@ -45,6 +47,7 @@ class _ExtensionItemCardState extends State<ExtensionItemCard> {
 
   Widget _buildDesktop(BuildContext context) {
     return GridItemTile(
+      usingIcon: widget.usingIcon,
       title: widget.title,
       cover: widget.cover,
       subtitle: widget.update,

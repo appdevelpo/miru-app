@@ -9,12 +9,15 @@ import 'package:miru_app/utils/miru_storage.dart';
 class DatabaseService {
   static final db = MiruStorage.database;
 
-  static toggleFavorite({
-    required String package,
-    required String url,
-    required String name,
-    String? cover,
-  }) async {
+  static toggleFavorite(
+      {required String package,
+      required String url,
+      required String name,
+      String? cover,
+      List<String>? tags,
+      int? folderDepth,
+      int? parentFolderId,
+      int? folderId}) async {
     return db.writeTxn(() async {
       if (await isFavorite(
         package: package,
@@ -32,15 +35,36 @@ class DatabaseService {
           throw Exception('extension not found');
         }
         final extension = runtime.extension;
-        return db.favorites.put(
-          Favorite()
-            ..cover = cover
-            ..title = name
-            ..package = extension.package
-            ..type = extension.type
-            ..url = url,
-        );
+        return db.favorites.put(Favorite()
+          ..cover = cover
+          ..title = name
+          ..package = extension.package
+          ..type = extension.type
+          ..url = url
+          ..tags = tags
+          ..folderDepth = folderDepth
+          ..parentFolderId = parentFolderId
+          ..folderId = folderId);
       }
+    });
+  }
+
+  static addFavoriteFolder(
+      {required String folderName,
+      int? parentFolderId,
+      int? folderDepth}) async {
+    final folderId = fastHash("$folderName$folderDepth");
+    return db.writeTxn(() async {
+      return db.favorites.put(Favorite()
+        ..folderDepth = folderDepth
+        ..title = folderName
+        ..type = ExtensionType.folder
+        ..url = ""
+        ..cover = null
+        ..package = "folder"
+        ..tags = null
+        ..parentFolderId = parentFolderId
+        ..folderId = folderId);
     });
   }
 
@@ -57,10 +81,11 @@ class DatabaseService {
         null;
   }
 
-  static Future<List<Favorite>> getFavoritesByType({
-    ExtensionType? type,
-    int? limit,
-  }) async {
+  static Future<List<Favorite>> getFavoritesByType(
+      {ExtensionType? type,
+      int? limit,
+      int? parentFolderId,
+      int? folderDepth}) async {
     if (type == null) {
       final query = db.favorites.where().sortByDateDesc();
       if (limit != null) {
@@ -73,6 +98,32 @@ class DatabaseService {
       return query.limit(limit).findAll();
     }
     return query.findAll();
+  }
+
+  static Future<List<Favorite>> getFavorites(
+      {int? parentFolderId, int? folderDepth}) async {
+    if (folderDepth == 0) {}
+    return db.favorites
+        .filter()
+        .parentFolderIdEqualTo(parentFolderId)
+        .findAll();
+  }
+
+  static Future<List<Favorite>> getFavoritesFolder(int? folderId) async {
+    return db.favorites
+        .filter()
+        .folderIdIsNotNull()
+        .and()
+        .parentFolderIdEqualTo(folderId)
+        .findAll();
+  }
+
+  static Future<int?> getFavoritesParentFolder(int? parentfolderId) async {
+    final folder =
+        await db.favorites.filter().folderIdEqualTo(parentfolderId).findAll();
+    final parentfolderid = folder[0].parentFolderId;
+
+    return parentfolderid;
   }
 
   // 历史记录
@@ -305,5 +356,21 @@ class DatabaseService {
     } catch (e) {
       return null;
     }
+  }
+
+  //string hashing function
+  static int fastHash(String string) {
+    var hash = 0xcbf29ce484222325;
+
+    var i = 0;
+    while (i < string.length) {
+      final codeUnit = string.codeUnitAt(i++);
+      hash ^= codeUnit >> 8;
+      hash *= 0x100000001b3;
+      hash ^= codeUnit & 0xFF;
+      hash *= 0x100000001b3;
+    }
+
+    return hash;
   }
 }

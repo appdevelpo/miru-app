@@ -47,7 +47,7 @@ class ApplicationUtils {
       if (packageInfo.version != remoteVersion) {
         if (Platform.isAndroid) {
           Get.to(
-            Scaffold(
+            () => Scaffold(
               appBar: AppBar(
                 title: Text(
                   FlutterI18n.translate(
@@ -292,7 +292,7 @@ class ApplicationUtils {
       return true;
     }
     File(targetPath).writeAsBytesSync(output);
-    debugPrint("$targetPath");
+    // debugPrint("$targetPath");
     //
     return true;
   }

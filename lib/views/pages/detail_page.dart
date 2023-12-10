@@ -108,7 +108,7 @@ class _DetailPageState extends State<DetailPage> {
                     IconButton(
                       onPressed: () {
                         Get.to(
-                          WebViewPage(
+                          () => WebViewPage(
                             extensionRuntime: c.runtime.value!,
                             url: c.url,
                           ),

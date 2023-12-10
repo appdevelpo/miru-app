@@ -210,11 +210,13 @@ const _HistorytypeEnumValueMap = {
   r'manga': r'manga',
   r'bangumi': r'bangumi',
   r'fikushon': r'fikushon',
+  r'folder': r'folder',
 };
 const _HistorytypeValueEnumMap = {
   r'manga': ExtensionType.manga,
   r'bangumi': ExtensionType.bangumi,
   r'fikushon': ExtensionType.fikushon,
+  r'folder': ExtensionType.folder,
 };
 
 Id _historyGetId(History object) {

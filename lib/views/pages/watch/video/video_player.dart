@@ -50,9 +50,13 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   void dispose() {
-    _c.player.dispose();
+    playerDispose();
     Get.delete<VideoPlayerController>(tag: widget.title);
     super.dispose();
+  }
+
+  void playerDispose() async {
+    await _c.player.dispose();
   }
 
   _buildContent() {

@@ -502,15 +502,15 @@ class _SettingsPageState extends State<SettingsPage> {
             buildSubtitle: () => 'settings.license-subtitle'.i18n,
             trailing: const Icon(Icons.chevron_right),
             onTap: () {
-              Get.to(LicensePage(
-                applicationIcon: const ImageIcon(
-                  AssetImage('assets/icon/logo.png'),
-                  size: 120,
-                ),
-                applicationName: "Miru",
-                applicationVersion: packageInfo.version,
-                applicationLegalese: "AGPLv3 © 2023 MiruProject.",
-              ));
+              Get.to(() => LicensePage(
+                    applicationIcon: const ImageIcon(
+                      AssetImage('assets/icon/logo.png'),
+                      size: 120,
+                    ),
+                    applicationName: "Miru",
+                    applicationVersion: packageInfo.version,
+                    applicationLegalese: "AGPLv3 © 2023 MiruProject.",
+                  ));
             },
           )
         ]
