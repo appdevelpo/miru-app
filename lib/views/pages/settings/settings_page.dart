@@ -96,6 +96,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 'languages.en'.i18n: 'en',
                 'languages.es'.i18n: 'es',
                 'languages.fr'.i18n: 'fr',
+                'languages.hu'.i18n: 'hu',
                 'languages.hi'.i18n: 'hi',
                 'languages.id'.i18n: 'id',
                 'languages.ja'.i18n: 'ja',
@@ -232,6 +233,13 @@ class _SettingsPageState extends State<SettingsPage> {
                     "settings.external-player-builtin".i18n: "built-in",
                     "VLC": "vlc",
                     "Other": "other",
+                  };
+                }
+                if (Platform.isLinux) {
+                  return {
+                    "settings.external-player-builtin".i18n: "built-in",
+                    "VLC": "vlc",
+                    "mpv": "mpv",
                   };
                 }
                 return {
